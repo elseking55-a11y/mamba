@@ -37,10 +37,14 @@
 // src/components/layout/header/mobile-menu/use-mobile-menu-config.tsx
 
 import { observer } from 'mobx-react-lite';
+import './menu-items.scss';
 
 export const MenuItems = observer(() => {
-    // No menu items by default - add your custom menu items here
-    return null;
+    return (
+        <a className='app-header__menu' href='/' aria-label='Free Bot'>
+            Free Bot
+        </a>
+    );
 });
 
 export const TradershubLink = observer(() => {
