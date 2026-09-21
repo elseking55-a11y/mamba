@@ -11,12 +11,12 @@ type Feature = {
 };
 
 const FEATURES: Feature[] = [
-    { id: 'free-bots', title: 'Free Bots', description: 'Ready-to-use free bot strategies.', icon: '🤖' },
-    { id: 'copy-trade', title: 'Copy Trade', description: 'Manage follower API tokens and copy settings.', icon: '👥' },
-    { id: 'analysis', title: 'Analysis Tool', description: 'Digit, tick and market analysis workspace.', icon: '📊' },
-    { id: 'bulk-trade', title: 'Bulk Trade', description: 'Prepare multiple trade instructions at once.', icon: '⚡' },
-    { id: 'manual-trade', title: 'Manual Trade', description: 'Manual contract setup and execution workspace.', icon: '🎯' },
-    { id: 'auto-trade', title: 'Auto Trade', description: 'Automation controls and bot execution workspace.', icon: '🚀' },
+    { id: 'free-bots', title: 'Free Bots', description: 'Only uploaded real bots appear here.', icon: '🆓' },
+    { id: 'bulk-trade', title: 'Bulk Trade', description: 'Real Deriv bulk-trade workspace.', icon: '⚡' },
+    { id: 'manual-trade', title: 'Manual Trade', description: 'Real Deriv manual-trade workspace.', icon: '🎯' },
+    { id: 'auto-trade', title: 'Auto Trade', description: 'Run configured bots through Deriv.', icon: '🚀' },
+    { id: 'copy-trade', title: 'Copy Trade', description: 'Manage follower API tokens.', icon: '👥' },
+    { id: 'analysis', title: 'Analysis Tool', description: 'Real market and digit analysis workspace.', icon: '📊' },
 ];
 
 const MambaFeatureHub = () => {
@@ -33,14 +33,7 @@ const MambaFeatureHub = () => {
         (dashboard as any)?.setActiveTab?.(tab);
     };
 
-    const freeBots = useMemo(
-        () => [
-            { name: 'Elisy234sharp', market: 'Volatility / Digit', status: 'FREE' },
-            { name: 'Sharp Digit Analyzer', market: 'Digit Analysis', status: 'FREE' },
-            { name: 'Sharp Quick Entry', market: 'Quick Strategy', status: 'FREE' },
-        ],
-        []
-    );
+    const freeBots: { name: string; market: string; status: string }[] = [];
 
     const renderPanel = () => {
         if (!active) return null;
@@ -49,20 +42,13 @@ const MambaFeatureHub = () => {
             return (
                 <section className='mfh-panel'>
                     <div className='mfh-panel-head'><h3>Free Bots</h3><button onClick={() => setActive(null)}>Close</button></div>
-                    <div className='mfh-grid'>
-                        {freeBots.map(bot => (
-                            <div className='mfh-card' key={bot.name}>
-                                <span className='mfh-badge'>{bot.status}</span>
-                                <h4>{bot.name}</h4>
-                                <p>{bot.market}</p>
-                                <button onClick={() => openNative(DBOT_TABS.BOT_BUILDER)}>Open in Bot Builder</button>
-                            </div>
-                        ))}
+                    <div className='mfh-empty'>
+                        <strong>No free bots available yet.</strong>
+                        <span>Upload a real bot from the Admin panel and it will appear here automatically.</span>
                     </div>
                 </section>
             );
         }
-
         if (active === 'copy-trade') {
             return (
                 <section className='mfh-panel'>
@@ -133,12 +119,14 @@ const MambaFeatureHub = () => {
             </div>
             <div className='mfh-nav'>
                 <button onClick={() => openNative(DBOT_TABS.DASHBOARD)}>Dashboard</button>
+                <button onClick={() => openNative(DBOT_TABS.BOT_BUILDER)}>Bot Builder</button>
+                <button className={active === 'free-bots' ? 'active' : ''} onClick={() => setActive('free-bots')}>🆓 Free Bots</button>
+                <button className={active === 'bulk-trade' ? 'active' : ''} onClick={() => setActive('bulk-trade')}>⚡ Bulk Trade</button>
+                <button className={active === 'manual-trade' ? 'active' : ''} onClick={() => setActive('manual-trade')}>🎯 Manual Trade</button>
+                <button className={active === 'auto-trade' ? 'active' : ''} onClick={() => setActive('auto-trade')}>🚀 Auto Trade</button>
                 <button onClick={() => openNative(DBOT_TABS.CHART)}>Charts</button>
-                {FEATURES.map(feature => (
-                    <button key={feature.id} className={active === feature.id ? 'active' : ''} onClick={() => setActive(feature.id)}>
-                        {feature.icon} {feature.title}
-                    </button>
-                ))}
+                <button className={active === 'copy-trade' ? 'active' : ''} onClick={() => setActive('copy-trade')}>👥 Copy Trade</button>
+                <button className={active === 'analysis' ? 'active' : ''} onClick={() => setActive('analysis')}>📊 Analysis Tool</button>
             </div>
             {active ? renderPanel() : (
                 <div className='mfh-grid'>
