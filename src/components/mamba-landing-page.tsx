@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { initiateLogin, initiateSignUp } from '@/external/deriv-core/auth/oauth';
 import './mamba-landing-page.scss';
 
-const getClientId = () => process.env.NEXT_PUBLIC_DERIV_APP_ID || '';
+const getClientId = () => process.env.NEXT_PUBLIC_DERIV_CLIENT_ID || '';
 
 const getReferralConfig = () => {
     const referral = process.env.NEXT_PUBLIC_DERIV_REFERRAL_LINK || '';
@@ -23,7 +23,7 @@ const MambaLandingPage = () => {
     const auth = async (mode: 'login' | 'signup') => {
         setError('');
         if (!clientId) {
-            setError('Deriv Client ID is not configured. Add NEXT_PUBLIC_DERIV_APP_ID to your deployment environment.');
+            setError('Deriv Client ID is not configured. Add NEXT_PUBLIC_DERIV_CLIENT_ID to your deployment environment.');
             return;
         }
 
