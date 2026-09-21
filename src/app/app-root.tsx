@@ -7,6 +7,8 @@ import { api_base } from '@/external/bot-skeleton';
 import { useStore } from '@/hooks/useStore';
 import { localize } from '@deriv-com/translations';
 import MambaFeatureHub from '@/components/mamba-feature-hub';
+import MambaLandingPage from '@/components/mamba-landing-page';
+import { getAuthInfo } from '@/external/deriv-core/auth/storage';
 import './app-root.scss';
 
 const AppContent = lazy(() => import('./app-content'));
@@ -36,6 +38,12 @@ const ErrorComponentWrapper = observer(() => {
 
 const AppRoot = () => {
     const store = useStore();
+    const hasCallback = new URLSearchParams(window.location.search).has('code');
+    const isAuthenticated = !!getAuthInfo();
+
+    if (!isAuthenticated && !hasCallback) {
+        return <MambaLandingPage />;
+    }
     const api_base_initialized = useRef(false);
     const [is_api_initialized, setIsApiInitialized] = useState(false);
 
