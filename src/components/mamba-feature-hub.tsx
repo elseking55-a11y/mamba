@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useStore } from '@/hooks/useStore';
 import { DBOT_TABS } from '@/constants/bot-contents';
 import './mamba-feature-hub.scss';
@@ -33,7 +33,7 @@ const MambaFeatureHub = () => {
         (dashboard as any)?.setActiveTab?.(tab);
     };
 
-    const freeBots: { name: string; market: string; status: string }[] = [];
+    
 
     const renderPanel = () => {
         if (!active) return null;
