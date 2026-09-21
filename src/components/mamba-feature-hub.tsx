@@ -134,7 +134,6 @@ const MambaFeatureHub = () => {
             <div className='mfh-nav'>
                 <button onClick={() => openNative(DBOT_TABS.DASHBOARD)}>Dashboard</button>
                 <button onClick={() => openNative(DBOT_TABS.CHART)}>Charts</button>
-                <button onClick={() => openNative(DBOT_TABS.TUTORIAL)}>Tutorials</button>
                 {FEATURES.map(feature => (
                     <button key={feature.id} className={active === feature.id ? 'active' : ''} onClick={() => setActive(feature.id)}>
                         {feature.icon} {feature.title}
