@@ -9,7 +9,14 @@ const getReferralConfig = () => {
     try {
         const url = new URL(referral);
         const token = url.searchParams.get('t') || url.searchParams.get('affiliate_token') || '';
-        return token ? { affiliateToken: token, affiliateTokenParam: url.searchParams.has('affiliate_token') ? 'affiliate_token' as const : 't' as const } : {};
+        return token
+            ? {
+                  affiliateToken: token,
+                  affiliateTokenParam: url.searchParams.has('affiliate_token')
+                      ? ('affiliate_token' as const)
+                      : ('t' as const),
+              }
+            : {};
     } catch {
         return {};
     }
@@ -22,6 +29,7 @@ const MambaLandingPage = () => {
 
     const auth = async (mode: 'login' | 'signup') => {
         setError('');
+
         if (!clientId) {
             setError('Deriv Client ID is not configured. Add NEXT_PUBLIC_DERIV_CLIENT_ID to your deployment environment.');
             return;
@@ -48,49 +56,61 @@ const MambaLandingPage = () => {
 
     return (
         <main className='mamba-landing'>
-            <nav className='mamba-landing-nav'>
-                <div className='mamba-brand'>MAMBA</div>
-                <span className='mamba-status'>DERIV TRADING WORKSPACE</span>
-            </nav>
+            <div className='mamba-grid-bg' aria-hidden='true' />
+            <div className='mamba-glow mamba-glow-one' aria-hidden='true' />
+            <div className='mamba-glow mamba-glow-two' aria-hidden='true' />
 
-            <section className='mamba-hero'>
-                <div className='mamba-hero-copy'>
-                    <span className='mamba-kicker'>WELCOME TO MAMBA</span>
-                    <h1>Trade smarter.<br /><strong>Build. Analyze. Automate.</strong></h1>
-                    <p>
-                        A professional Deriv workspace for bot building, free bots, manual trading,
-                        auto trading, bulk trading, charts, copy trading and market analysis.
-                    </p>
+            <header className='mamba-landing-header'>
+                <div className='mamba-logo'>
+                    <span className='mamba-logo-mark'>🐍</span>
+                    <span>MAMBA</span>
+                </div>
+                <span className='mamba-header-tag'>AS YOUR MENTOR</span>
+            </header>
+
+            <section className='mamba-splash' aria-label='Mamba welcome'>
+                <div className='mamba-brain-wrap' aria-hidden='true'>
+                    <div className='mamba-brain-ring mamba-brain-ring-one' />
+                    <div className='mamba-brain-ring mamba-brain-ring-two' />
+                    <div className='mamba-brain'>
+                        <span className='mamba-brain-symbol'>🧠</span>
+                        <span className='mamba-snake-face'>🐍</span>
+                    </div>
+                    <span className='mamba-particle particle-one' />
+                    <span className='mamba-particle particle-two' />
+                    <span className='mamba-particle particle-three' />
+                    <span className='mamba-particle particle-four' />
+                </div>
+
+                <div className='mamba-welcome'>
+                    <div className='mamba-welcome-line'>WELCOME TO</div>
+                    <h1>MAMBA</h1>
+                    <div className='mamba-mentor'>AS YOUR MENTOR</div>
+                    <p className='mamba-tagline'>TRADE SMARTER <span>•</span> GROW FASTER</p>
 
                     <div className='mamba-auth-actions'>
-                        <button className='mamba-primary' onClick={() => auth('login')}>Sign In with Deriv</button>
-                        <button className='mamba-secondary' onClick={() => auth('signup')}>Sign Up with Deriv</button>
+                        <button className='mamba-auth-button mamba-sign-in' onClick={() => auth('login')}>
+                            <span className='mamba-button-icon'>♙</span>
+                            <span>SIGN IN</span>
+                            <span className='mamba-arrow'>→</span>
+                        </button>
+                        <button className='mamba-auth-button mamba-sign-up' onClick={() => auth('signup')}>
+                            <span className='mamba-button-icon'>♙</span>
+                            <span>SIGN UP</span>
+                            <span className='mamba-arrow'>→</span>
+                        </button>
                     </div>
 
                     {error && <div className='mamba-auth-error'>{error}</div>}
 
                     <p className='mamba-security'>
-                        Authentication is handled by Deriv OAuth. Mamba does not ask for your Deriv password.
+                        Secure authentication through Deriv OAuth. Mamba never asks for your Deriv password.
                     </p>
-                </div>
-
-                <div className='mamba-hero-card'>
-                    <div className='mamba-card-glow' />
-                    <span>REAL WORKSPACE</span>
-                    <h2>MAMBA</h2>
-                    <p>Connect your Deriv account, then access the trading tools.</p>
-                    <div className='mamba-mini-grid'>
-                        <span>🤖 Bot Builder</span>
-                        <span>🆓 Free Bots</span>
-                        <span>⚡ Auto Trade</span>
-                        <span>📊 Analysis</span>
-                    </div>
                 </div>
             </section>
 
             <footer className='mamba-landing-footer'>
-                <span>© MAMBA</span>
-                <span>Deriv account required for live trading</span>
+                <span>LEARN&nbsp;&nbsp;|&nbsp;&nbsp;TRADE&nbsp;&nbsp;|&nbsp;&nbsp;GROW</span>
             </footer>
         </main>
     );
