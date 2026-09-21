@@ -41,14 +41,15 @@ const AppRoot = () => {
     const hasCallback = new URLSearchParams(window.location.search).has('code');
     const isAuthenticated = !!getAuthInfo();
 
-    if (!isAuthenticated && !hasCallback) {
-        return <MambaLandingPage />;
-    }
     const api_base_initialized = useRef(false);
     const [is_api_initialized, setIsApiInitialized] = useState(false);
 
-    // Initialize API
+    // Initialize API only after Deriv authentication. The landing page never waits for API startup.
     useEffect(() => {
+        if (!isAuthenticated && !hasCallback) {
+            setIsApiInitialized(true);
+            return;
+        }
         const timeoutId = setTimeout(() => {
             if (!is_api_initialized) {
                 setIsApiInitialized(true);
@@ -74,6 +75,7 @@ const AppRoot = () => {
         return () => clearTimeout(timeoutId);
     }, []);
 
+    if (!isAuthenticated && !hasCallback) return <MambaLandingPage />;
     if (!store || !is_api_initialized) return <AppRootLoader />;
 
     return (
