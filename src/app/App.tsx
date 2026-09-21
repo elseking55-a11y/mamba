@@ -103,6 +103,10 @@ function App() {
                 } else {
                     console.error('No accounts returned after authentication');
                 }
+
+                // Return to the clean app URL after successful authentication.
+                window.location.replace(window.location.origin + '/');
+                return;
             } catch (error) {
                 console.error('OAuth callback error:', error);
             } finally {
