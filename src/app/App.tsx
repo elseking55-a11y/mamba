@@ -82,7 +82,7 @@ function App() {
         const handleCallback = async () => {
             try {
                 const authInfo = await handleOAuthCallback(window.location.href, {
-                    clientId: process.env.NEXT_PUBLIC_DERIV_APP_ID || '',
+                    clientId: process.env.NEXT_PUBLIC_DERIV_CLIENT_ID || process.env.NEXT_PUBLIC_DERIV_APP_ID || '',
                     redirectUri: window.location.origin,
                     scopes: 'trade',
                 });
