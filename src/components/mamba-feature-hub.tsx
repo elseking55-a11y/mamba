@@ -30,7 +30,7 @@ const MambaFeatureHub = () => {
     const [botName, setBotName] = useState('Elisy234sharp');
 
     const openNative = (tab: number) => {
-        dashboard?.setActiveTab?.(tab);
+        (dashboard as any)?.setActiveTab?.(tab);
     };
 
     const freeBots = useMemo(
@@ -69,7 +69,7 @@ const MambaFeatureHub = () => {
                     <div className='mfh-panel-head'><h3>Copy Trade</h3><button onClick={() => setActive(null)}>Close</button></div>
                     <p className='mfh-note'>Paste one Personal API Token per line. Tokens stay in this browser session.</p>
                     <textarea value={tokens} onChange={e => setTokens(e.target.value)} placeholder='Paste follower API tokens here...' />
-                    <div className='mfh-row'><button onClick={() => setTokens('')}>Clear</button><span>{tokens.split(/\\n/).filter(Boolean).length} token(s)</span></div>
+                    <div className='mfh-row'><button onClick={() => setTokens('')}>Clear</button><span>{tokens.split(/\n/).filter(Boolean).length} token(s)</span></div>
                 </section>
             );
         }
