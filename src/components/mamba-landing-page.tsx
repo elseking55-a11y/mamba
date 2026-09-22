@@ -65,10 +65,20 @@ const MambaLandingPage = () => {
                     <span className='mamba-logo-mark'>🐍</span>
                     <span>MAMBA</span>
                 </div>
-                <span className='mamba-header-tag'>AS YOUR MENTOR</span>
+                <span className='mamba-header-tag'>SMARTER TRADERS&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;BIGGER DREAMS</span>
             </header>
 
             <section className='mamba-splash' aria-label='Mamba welcome'>
+                <div className='mamba-side-label mamba-side-left' aria-hidden='true'>
+                    <span>TRADE</span>
+                    <span>LEARN</span>
+                    <span>GROW</span>
+                </div>
+                <div className='mamba-side-label mamba-side-right' aria-hidden='true'>
+                    <span>YOUR TRADING</span>
+                    <span>JOURNEY</span>
+                    <span>STARTS HERE</span>
+                </div>
                 <div className='mamba-brain-wrap' aria-hidden='true'>
                     <div className='mamba-brain-ring mamba-brain-ring-one' />
                     <div className='mamba-brain-ring mamba-brain-ring-two' />
@@ -86,7 +96,8 @@ const MambaLandingPage = () => {
                     <div className='mamba-welcome-line'>WELCOME TO</div>
                     <h1>MAMBA</h1>
                     <div className='mamba-mentor'>AS YOUR MENTOR</div>
-                    <p className='mamba-tagline'>TRADE SMARTER <span>•</span> GROW FASTER</p>
+                    <p className='mamba-tagline'>LEARN <span>•</span> TRADE <span>•</span> GROW</p>
+                    <p className='mamba-subtagline'>Smarter tools. Better decisions. Greater results.</p>
 
                     <div className='mamba-auth-actions'>
                         <button className='mamba-auth-button mamba-sign-in' onClick={() => auth('login')}>
@@ -110,7 +121,7 @@ const MambaLandingPage = () => {
             </section>
 
             <footer className='mamba-landing-footer'>
-                <span>LEARN&nbsp;&nbsp;|&nbsp;&nbsp;TRADE&nbsp;&nbsp;|&nbsp;&nbsp;GROW</span>
+                <span className='mamba-scroll-cue'>⌄</span><span>POWERED BY DERIV</span>
             </footer>
         </main>
     );
