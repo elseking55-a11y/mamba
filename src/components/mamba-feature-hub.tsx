@@ -129,8 +129,9 @@ const MambaFeatureHub = () => {
                 <button className={active === 'analysis' ? 'active' : ''} onClick={() => setActive('analysis')}>📊 Analysis Tool</button>
             </div>
             {active ? renderPanel() : (
-                <div className='mfh-section-title'><span>TOOLS</span><small>Select a tool to continue</small></div>
-                <div className='mfh-grid'>
+                <>
+                    <div className='mfh-section-title'><span>TOOLS</span><small>Select a tool to continue</small></div>
+                    <div className='mfh-grid'>
                     {FEATURES.map(feature => (
                         <button className='mfh-feature' key={feature.id} onClick={() => setActive(feature.id)}>
                             <span className='mfh-icon'>{feature.icon}</span>
@@ -138,7 +139,8 @@ const MambaFeatureHub = () => {
                             <span>{feature.description}</span>
                         </button>
                     ))}
-                </div>
+                    </div>
+                </>
             )}
         </div>
     );
