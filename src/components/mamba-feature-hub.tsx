@@ -114,11 +114,11 @@ const MambaFeatureHub = () => {
     return (
         <div className='mfh-shell'>
             <div className='mfh-top'>
-                <div><h2>ELISY254 SHARP TOOLS</h2><p>Free bots • Copy trade • Analysis • Bulk • Manual • Auto</p></div>
-                <button className='mfh-native' onClick={() => openNative(DBOT_TABS.BOT_BUILDER)}>Bot Builder</button>
+                <div><h2>MAMBA TRADING TOOLS</h2><p>Dashboard • Bots • Trading • Charts • Analysis</p></div>
+                <div className='mfh-status'><span className='mfh-status-dot' /> DERIV WORKSPACE</div>
             </div>
             <div className='mfh-nav'>
-                <button onClick={() => openNative(DBOT_TABS.DASHBOARD)}>Dashboard</button>
+                <button className='mfh-native' onClick={() => openNative(DBOT_TABS.DASHBOARD)}>Dashboard</button>
                 <button onClick={() => openNative(DBOT_TABS.BOT_BUILDER)}>Bot Builder</button>
                 <button className={active === 'free-bots' ? 'active' : ''} onClick={() => setActive('free-bots')}>🆓 Free Bots</button>
                 <button className={active === 'bulk-trade' ? 'active' : ''} onClick={() => setActive('bulk-trade')}>⚡ Bulk Trade</button>
@@ -129,6 +129,7 @@ const MambaFeatureHub = () => {
                 <button className={active === 'analysis' ? 'active' : ''} onClick={() => setActive('analysis')}>📊 Analysis Tool</button>
             </div>
             {active ? renderPanel() : (
+                <div className='mfh-section-title'><span>TOOLS</span><small>Select a tool to continue</small></div>
                 <div className='mfh-grid'>
                     {FEATURES.map(feature => (
                         <button className='mfh-feature' key={feature.id} onClick={() => setActive(feature.id)}>
