@@ -17,6 +17,9 @@ import './app-root.scss';
 const Layout = lazy(() => import('../components/layout'));
 const AppRoot = lazy(() => import('./app-root'));
 
+const getOAuthRedirectUri = () =>
+    process.env.NEXT_PUBLIC_DERIV_OAUTH_REDIRECT_URI || `${window.location.origin}/callback`;
+
 /**
  * Component wrapper to handle language URL parameter
  * Uses the useLanguageFromURL hook to process language switching
@@ -26,9 +29,6 @@ const LanguageHandler = ({ children }: { children: React.ReactNode }) => {
     return <>{children}</>;
 };
 
-// The static preview build is served under /bot/preview (see rsbuild.config.ts
-// assetPrefix), so React Router must resolve routes under that prefix. Standalone
-// partner deploys are served at the root, so no basename there.
 const routerBasename = isPreviewMode() ? PREVIEW_BASE_PATH : undefined;
 
 const router = createBrowserRouter(
@@ -54,37 +54,32 @@ const router = createBrowserRouter(
                 </Suspense>
             }
         >
-            {/* All child routes will be passed as children to Layout */}
             <Route index element={<AppRoot />} />
-            {/* App Builder embeds the template at /preview — render the same app shell */}
+            <Route path='callback' element={<AppRoot />} />
             <Route path='preview' element={<AppRoot />} />
         </Route>
     ),
     { basename: routerBasename }
 );
 
-/**
- * Main App component
- *
- * Responsibilities:
- * 1. OAuth callback handling (via vendored deriv-core handleOAuthCallback)
- * 2. Account switching from URL (via useAccountSwitching hook)
- * 3. Router provider setup
- */
 function App() {
-    // Handle account switching via URL parameter
     useAccountSwitching();
 
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        if (!urlParams.has('code')) return;
+        const hasOAuthResponse =
+            urlParams.has('code') ||
+            urlParams.has('error') ||
+            urlParams.has('error_description');
+
+        if (!hasOAuthResponse) return;
 
         const handleCallback = async () => {
             try {
                 const authInfo = await handleOAuthCallback(window.location.href, {
-                    clientId: process.env.NEXT_PUBLIC_DERIV_CLIENT_ID || process.env.NEXT_PUBLIC_DERIV_APP_ID || '',
-                    redirectUri: window.location.origin,
-                    scopes: 'trade',
+                    clientId: process.env.NEXT_PUBLIC_DERIV_CLIENT_ID || '',
+                    redirectUri: getOAuthRedirectUri(),
+                    scopes: process.env.NEXT_PUBLIC_DERIV_OAUTH_SCOPES || 'trade',
                 });
 
                 const { DerivWSAccountsService } = await import('@/services/derivws-accounts.service');
@@ -104,13 +99,12 @@ function App() {
                     console.error('No accounts returned after authentication');
                 }
 
-                // Return to the clean app URL after successful authentication.
                 window.location.replace(window.location.origin + '/');
                 return;
             } catch (error) {
                 console.error('OAuth callback error:', error);
             } finally {
-                cleanupUrl(window.location.origin);
+                cleanupUrl(getOAuthRedirectUri());
             }
         };
 
