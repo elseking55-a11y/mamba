@@ -145,6 +145,12 @@ const Layout = observer(() => {
         }
     }, [isAuthenticating, isInitialAuthCheckComplete]);
 
+    // The Mamba landing page is a standalone full-screen experience.
+    // Do not wrap it in the normal Deriv application chrome or body container.
+    if (isMambaLanding) {
+        return <Outlet />;
+    }
+
     return (
         <div
             className={clsx('layout', {
