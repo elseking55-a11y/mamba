@@ -79,17 +79,21 @@ const MambaLandingPage = () => {
                     <span>JOURNEY</span>
                     <span>STARTS HERE</span>
                 </div>
-                <div className='mamba-brain-wrap' aria-hidden='true'>
-                    <div className='mamba-brain-ring mamba-brain-ring-one' />
-                    <div className='mamba-brain-ring mamba-brain-ring-two' />
-                    <div className='mamba-brain'>
-                        <span className='mamba-brain-symbol'>🧠</span>
-                        <span className='mamba-snake-face'>🐍</span>
+                <div className='mamba-hero-art' aria-hidden='true'>
+                    <div className='mamba-brain-wrap'>
+                        <div className='mamba-brain-ring mamba-brain-ring-one' />
+                        <div className='mamba-brain-ring mamba-brain-ring-two' />
+                        <div className='mamba-brain'>
+                            <span className='mamba-brain-symbol'>🧠</span>
+                            <span className='mamba-snake-face'>🐍</span>
+                        </div>
+                        <span className='mamba-particle particle-one' />
+                        <span className='mamba-particle particle-two' />
+                        <span className='mamba-particle particle-three' />
+                        <span className='mamba-particle particle-four' />
                     </div>
-                    <span className='mamba-particle particle-one' />
-                    <span className='mamba-particle particle-two' />
-                    <span className='mamba-particle particle-three' />
-                    <span className='mamba-particle particle-four' />
+                    <div className='mamba-chart mamba-chart-left'>▂▅▃▇▅▂▆▇</div>
+                    <div className='mamba-chart mamba-chart-right'>▃▅▂▆▇▅▇█</div>
                 </div>
 
                 <div className='mamba-welcome'>
