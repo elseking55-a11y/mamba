@@ -4,17 +4,32 @@ import './mamba-landing-page.scss';
 
 const getClientId = () => process.env.NEXT_PUBLIC_DERIV_CLIENT_ID || '';
 
+const getRedirectUri = () =>
+    process.env.NEXT_PUBLIC_DERIV_OAUTH_REDIRECT_URI || `${window.location.origin}/callback`;
+
 const getReferralConfig = () => {
     const referral = process.env.NEXT_PUBLIC_DERIV_REFERRAL_LINK || '';
     try {
         const url = new URL(referral);
-        const token = url.searchParams.get('t') || url.searchParams.get('affiliate_token') || '';
+        const token =
+            url.searchParams.get('t') ||
+            url.searchParams.get('affiliate_token') ||
+            url.searchParams.get('sidi') ||
+            url.searchParams.get('ca') ||
+            '';
+        const affiliateTokenParam =
+            url.searchParams.has('affiliate_token')
+                ? 'affiliate_token'
+                : url.searchParams.has('sidi')
+                  ? 'sidi'
+                  : url.searchParams.has('ca')
+                    ? 'ca'
+                    : 't';
+
         return token
             ? {
                   affiliateToken: token,
-                  affiliateTokenParam: url.searchParams.has('affiliate_token')
-                      ? ('affiliate_token' as const)
-                      : ('t' as const),
+                  affiliateTokenParam: affiliateTokenParam as 't' | 'affiliate_token' | 'sidi' | 'ca',
               }
             : {};
     } catch {
@@ -38,7 +53,7 @@ const MambaLandingPage = () => {
         try {
             const config = {
                 clientId,
-                redirectUri: window.location.origin,
+                redirectUri: getRedirectUri(),
                 scopes: process.env.NEXT_PUBLIC_DERIV_OAUTH_SCOPES || 'trade',
                 ...referralConfig,
             };
@@ -50,7 +65,7 @@ const MambaLandingPage = () => {
             }
         } catch (e) {
             console.error('Deriv authentication start failed:', e);
-            setError('Unable to start Deriv authentication. Check the Client ID and redirect URL.');
+            setError('Unable to start Deriv authentication. Check the Client ID and callback URL.');
         }
     };
 
