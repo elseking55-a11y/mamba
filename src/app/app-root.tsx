@@ -17,39 +17,25 @@ const AppRootLoader = () => {
     return <ChunkLoader message={localize('Loading...')} />;
 };
 
-const ErrorComponentWrapper = observer(() => {
-    const { common } = useStore();
-
-    if (!common.error) return null;
-
-    return (
-        <ErrorComponent
-            header={common.error?.header}
-            message={common.error?.message}
-            redirect_label={common.error?.redirect_label}
-            redirectOnClick={common.error?.redirectOnClick}
-            should_clear_error_on_click={common.error?.should_clear_error_on_click}
-            setError={common.setError}
-            redirect_to={common.error?.redirect_to}
-            should_redirect={common.error?.should_redirect}
-        />
-    );
-});
-
 const AppRoot = () => {
     const store = useStore();
-    const hasCallback = new URLSearchParams(window.location.search).has('code');
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasCallback =
+        window.location.pathname === '/callback' ||
+        urlParams.has('code') ||
+        urlParams.has('error') ||
+        urlParams.has('error_description');
     const isAuthenticated = !!getAuthInfo();
 
     const api_base_initialized = useRef(false);
     const [is_api_initialized, setIsApiInitialized] = useState(false);
 
-    // Initialize API only after Deriv authentication. The landing page never waits for API startup.
     useEffect(() => {
         if (!isAuthenticated && !hasCallback) {
             setIsApiInitialized(true);
             return;
         }
+
         const timeoutId = setTimeout(() => {
             if (!is_api_initialized) {
                 setIsApiInitialized(true);
@@ -66,7 +52,7 @@ const AppRoot = () => {
                     api_base_initialized.current = false;
                 } finally {
                     setIsApiInitialized(true);
-                    clearTimeout(timeoutId); // Clear timeout if API init completes
+                    clearTimeout(timeoutId);
                 }
             }
         };
@@ -88,5 +74,24 @@ const AppRoot = () => {
         </Suspense>
     );
 };
+
+const ErrorComponentWrapper = observer(() => {
+    const { common } = useStore();
+
+    if (!common.error) return null;
+
+    return (
+        <ErrorComponent
+            header={common.error?.header}
+            message={common.error?.message}
+            redirect_label={common.error?.redirect_label}
+            redirectOnClick={common.error?.redirectOnClick}
+            should_clear_error_on_click={common.error?.should_clear_error_on_click}
+            setError={common.setError}
+            redirect_to={common.error?.redirect_to}
+            should_redirect={common.error?.should_redirect}
+        />
+    );
+});
 
 export default AppRoot;
