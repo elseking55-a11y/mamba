@@ -33,6 +33,10 @@ export default defineConfig({
         // preview pipeline sets this from BOT_APP_ID (see scripts/build-previews.js);
         // sibling templates use the same name.
         NEXT_PUBLIC_DERIV_APP_ID: JSON.stringify(process.env.NEXT_PUBLIC_DERIV_APP_ID ?? ''),
+        // OAuth 2.0 Client ID used by the Mamba landing page for Deriv login/sign-up.
+        NEXT_PUBLIC_DERIV_CLIENT_ID: JSON.stringify(process.env.NEXT_PUBLIC_DERIV_CLIENT_ID ?? ''),
+        // OAuth permissions requested by Mamba.
+        NEXT_PUBLIC_DERIV_OAUTH_SCOPES: JSON.stringify(process.env.NEXT_PUBLIC_DERIV_OAUTH_SCOPES ?? 'trade'),
         // Authoritative environment signal. The bot's URL resolver (config.ts) and
         // the vendored deriv-core OAuth resolver both read this so endpoints stay consistent
         // on a deployed partner domain (where hostname detection can't match Deriv).
