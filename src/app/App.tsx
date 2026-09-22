@@ -66,6 +66,8 @@ function App() {
     useAccountSwitching();
 
     React.useEffect(() => {
+        // OAuth callbacks can arrive at /callback, where the code is in the query string.
+        // Process the callback before the main app tries to initialize Deriv.
         const urlParams = new URLSearchParams(window.location.search);
         const hasOAuthResponse =
             urlParams.has('code') ||
@@ -103,8 +105,8 @@ function App() {
                 return;
             } catch (error) {
                 console.error('OAuth callback error:', error);
-            } finally {
-                cleanupUrl(getOAuthRedirectUri());
+                // Keep the callback URL intact on failure so the error can be diagnosed
+                // instead of silently leaving the user in a partially authenticated state.
             }
         };
 
